@@ -1,0 +1,376 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Happy Birthday Dee 💕</title>
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@500;700&family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            background: linear-gradient(135deg, #ffe6f0, #fff5fa);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            flex-direction: column;
+            font-family: 'Poppins', sans-serif;
+            text-align: center;
+            overflow: hidden;
+        }
+
+        canvas#particles {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            z-index: -1;
+            pointer-events: none;
+        }
+
+        /* Loader */
+        #loader {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: #fff5fa;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 1.5rem;
+            color: #c2185b;
+            font-family: 'Dancing Script', cursive;
+            z-index: 20;
+            animation: fadeOut 2s ease 3s forwards;
+        }
+
+        @keyframes fadeOut {
+            to {
+                opacity: 0;
+                visibility: hidden;
+            }
+        }
+
+        .fade-in {
+            opacity: 0;
+            transform: translateY(20px);
+            animation: fadeInUp 1.5s forwards;
+        }
+
+        @keyframes fadeInUp {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .message {
+            font-size: clamp(1.2rem, 2vw, 1.8rem);
+            color: #c2185b;
+            margin: 20px;
+            display: none;
+            padding: 0 10px;
+            font-family: 'Dancing Script', cursive;
+        }
+
+        .typewriter {
+            display: inline-block;
+            border-right: 2px solid #c2185b;
+            white-space: nowrap;
+            overflow: hidden;
+            animation: caret 1s steps(1) infinite;
+        }
+
+        @keyframes caret {
+            50% {
+                border-color: transparent;
+            }
+        }
+
+        .hearts {
+            position: relative;
+            width: 150px;
+            height: 150px;
+            margin: 20px auto;
+            display: none;
+        }
+
+        @media (min-width: 768px) {
+            .hearts {
+                width: 200px;
+                height: 200px;
+            }
+        }
+
+        .heart {
+            position: absolute;
+            width: 80px;
+            height: 70px;
+            background: #ff3366;
+            transform: rotate(-45deg);
+            left: 0;
+            top: 0;
+            animation: float 3s infinite ease-in-out;
+            cursor: pointer;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+        }
+
+        .heart:before,
+        .heart:after {
+            content: "";
+            position: absolute;
+            width: 80px;
+            height: 70px;
+            background: #ff3366;
+            border-radius: 50%;
+        }
+
+        .heart:before {
+            top: -40px;
+            left: 0;
+        }
+
+        .heart:after {
+            left: 40px;
+            top: 0;
+        }
+
+        .heart.second {
+            left: 100px;
+            animation-delay: 1.5s;
+        }
+
+        @keyframes float {
+            0% {
+                transform: translateY(0) rotate(-45deg);
+            }
+
+            50% {
+                transform: translateY(-15px) rotate(-45deg);
+            }
+
+            100% {
+                transform: translateY(0) rotate(-45deg);
+            }
+        }
+
+        .final-message {
+            display: none;
+            font-size: clamp(1.5rem, 3vw, 2.2rem);
+            font-weight: bold;
+            color: #e91e63;
+            margin-top: 20px;
+            animation: fadeInUp 2s forwards;
+            padding: 0 15px;
+            font-family: 'Dancing Script', cursive;
+        }
+
+        .highlight {
+            color: #ff3366;
+        }
+
+        /* Sparkle ring for engagement */
+        .sparkle-ring {
+            display: inline-block;
+            position: relative;
+            animation: sparkle 2s infinite ease-in-out;
+        }
+
+        @keyframes sparkle {
+
+            0%,
+            100% {
+                text-shadow: 0 0 5px #fff, 0 0 10px gold, 0 0 15px #ffd700;
+            }
+
+            50% {
+                text-shadow: 0 0 15px #fff, 0 0 20px gold, 0 0 30px #ffec8b;
+            }
+        }
+
+        .sub-line {
+            margin-top: 10px;
+            font-size: 1rem;
+            font-weight: normal;
+            color: #c2185b;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        /* Confetti */
+        .confetti {
+            position: fixed;
+            top: -10px;
+            width: 10px;
+            height: 10px;
+            background-color: red;
+            opacity: 0.7;
+            animation: fall linear forwards;
+            z-index: 15;
+        }
+
+        @keyframes fall {
+            to {
+                transform: translateY(110vh) rotate(360deg);
+                opacity: 0;
+            }
+        }
+
+        /* Music control */
+        #music-btn {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: #ff3366;
+            color: #fff;
+            border: none;
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            font-size: 20px;
+            cursor: pointer;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+            z-index: 30;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Loader -->
+    <div id="loader">💖 Loading your surprise...</div>
+    <!-- Background Music -->
+    <audio id="bg-music" loop>
+        <source src="https://www.bensound.com/bensound-music/bensound-romantic.mp3" type="audio/mpeg">
+        Your browser does not support the audio element.
+    </audio>
+    <button id="music-btn">🔇</button>
+    <!-- Floating particles canvas -->
+    <canvas id="particles"></canvas>
+    <div class="message fade-in" id="welcome">Wait cutie... 💖</div>
+    <div class="message fade-in" id="poem"><span class="typewriter" id="typewriter"></span></div>
+    <div class="hearts" id="hearts">
+        <div class="heart first" id="heart1"></div>
+        <div class="heart second" id="heart2"></div>
+    </div>
+    <div class="final-message" id="final">
+        🎉 Happy Birthday My Love <span class="highlight">Dee</span> 💕<br>
+        <span class="sparkle-ring">💍</span> Happy Engagement Day to Us <span class="sparkle-ring">💍</span>
+        <div class="sub-line">Two hearts, one soul, today is just the beginning of our forever. 💖</div>
+    </div>
+    <script>
+        // Typewriter effect
+        const poemText = "In your smile, my world feels new, Every heartbeat says I love you. 💕";
+        let i = 0;
+
+        function typeWriter() {
+            if (i < poemText.length) {
+                document.getElementById("typewriter").textContent += poemText.charAt(i);
+                i++;
+                setTimeout(typeWriter, 60);
+            }
+        }
+        // Messages sequence
+        setTimeout(() => {
+            document.getElementById('welcome').style.display = 'block';
+        }, 3500);
+        setTimeout(() => {
+            document.getElementById('poem').style.display = 'block';
+            typeWriter();
+        }, 5500);
+        setTimeout(() => {
+            document.getElementById('hearts').style.display = 'block';
+        }, 9000);
+        // Heart merging interaction
+        const heart2 = document.getElementById('heart2');
+        const heart1 = document.getElementById('heart1');
+        const hearts = document.getElementById('hearts');
+        const finalMsg = document.getElementById('final');
+        let merged = false;
+        hearts.addEventListener('click', () => {
+            if (!merged) {
+                // Merge animation
+                heart2.style.transition = 'left 1.5s ease-in-out, transform 1.5s ease-in-out';
+                heart1.style.transition = 'left 1.5s ease-in-out, transform 1.5s ease-in-out';
+                heart2.style.left = '40px';
+                heart2.style.transform = 'scale(1.2) rotate(-45deg)';
+                heart1.style.left = '40px';
+                heart1.style.transform = 'scale(1.2) rotate(-45deg)';
+                setTimeout(() => {
+                    hearts.style.display = 'none';
+                    finalMsg.style.display = 'block';
+                    launchConfetti();
+                }, 1700);
+                merged = true;
+            }
+        });
+        // Floating particles animation
+        const canvas = document.getElementById('particles');
+        const ctx = canvas.getContext('2d');
+
+        function sizeCanvas() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        }
+        sizeCanvas();
+        const particles = [];
+        for (let i = 0; i < 80; i++) {
+            particles.push({
+                x: Math.random() * window.innerWidth,
+                y: Math.random() * window.innerHeight,
+                r: Math.random() * 4 + 1,
+                dx: (Math.random() - 0.5) * 1.2,
+                dy: (Math.random() - 0.5) * 1.2,
+                color: Math.random() > 0.5 ? 'rgba(255,51,102,0.6)' : 'rgba(255,192,203,0.5)'
+            });
+        }
+
+        function animateParticles() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            particles.forEach(p => {
+                ctx.beginPath();
+                ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+                ctx.fillStyle = p.color;
+                ctx.fill();
+                p.x += p.dx;
+                p.y += p.dy;
+                if (p.x < 0 || p.x > canvas.width) p.dx *= -1;
+                if (p.y < 0 || p.y > canvas.height) p.dy *= -1;
+            });
+            requestAnimationFrame(animateParticles);
+        }
+        animateParticles();
+        window.addEventListener('resize', sizeCanvas);
+        // Confetti animation
+        function launchConfetti() {
+            for (let i = 0; i < 80; i++) {
+                const conf = document.createElement("div");
+                conf.className = "confetti";
+                conf.style.left = Math.random() * 100 + "vw";
+                conf.style.backgroundColor = ["#ff3366", "#ff6699", "#ffd1dc", "#ff99cc"][Math.floor(Math.random() * 4)];
+                conf.style.animationDuration = (Math.random() * 3 + 2) + "s";
+                document.body.appendChild(conf);
+                setTimeout(() => conf.remove(), 4000);
+            }
+        }
+        // Music control
+        const music = document.getElementById('bg-music');
+        const btn = document.getElementById('music-btn');
+        let playing = false;
+        btn.addEventListener('click', () => {
+            if (playing) {
+                music.pause();
+                btn.textContent = '🔇';
+            } else {
+                music.play();
+                btn.textContent = '🔊';
+            }
+            playing = !playing;
+        });
+    </script>
+</body>
+
+</html>
